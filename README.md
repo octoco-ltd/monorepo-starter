@@ -27,6 +27,9 @@ npm i -D @nx/react
 
 nx g @nx/react:app react-app-1
 
+## Cloud URL
+https://cloud.nx.app/orgs/64b5a7ca09a3e3000df5f54c/workspaces/64b62f4ad76e71248661854e
+
 ## MikroORM - Unit Of Work
 https://mikro-orm.io/docs/unit-of-work
 https://mikro-orm.io/docs/3.6/usage-with-nestjs
