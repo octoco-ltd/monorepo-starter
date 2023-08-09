@@ -1,11 +1,8 @@
 {
+  // All source files for language server support:
   "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.spec.ts"],
-  "references": [],
-  "compilerOptions": {
-    // Enable workspace support:
-    "composite": true,
 
+  "compilerOptions": {
     // Build output:
     "outDir": "dist",
     "rootDir": "src",

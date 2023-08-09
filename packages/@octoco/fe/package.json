@@ -2,10 +2,14 @@
   "name": "@octoco/fe",
   "version": "0.1.0",
   "title": "ReactTS",
-  "description": "A template ReactJS app using Typescript",
-  "author": {
-    "name": "Octoco PTY (LTD)",
-    "url": "https://octoco.ltd"
+  "scripts": {
+    "serve": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public",
+    "format": "prettier . --write"
   },
   "private": true,
   "dependencies": {
@@ -56,16 +60,9 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-storybook": "^0.6.11",
+    "jest-watch-typeahead": "^2.2.2",
     "prop-types": "^15.8.1",
     "webpack": "^5.77.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": [

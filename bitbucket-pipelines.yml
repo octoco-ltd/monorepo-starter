@@ -1,0 +1,33 @@
+image: node:18-alpine
+
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          name: Build and test all workspaces.
+          services:
+            - mongo
+          script:
+            - export DATABASE_TEST_URL='mongodb://127.0.0.1:27017'
+            - npm install --global turbo
+            - yarn set version berry 
+            - yarn install
+            - turbo build
+            - turbo test
+
+  branches:
+    master:
+      - step:
+          name: Build docker images on merge (and in future deploy them).
+          services:
+            - docker
+          script:
+            - npm install --global turbo
+            - yarn set version berry 
+            - yarn install
+            - turbo build:docker
+
+definitions:
+  services:
+    mongo:
+      image: mongo

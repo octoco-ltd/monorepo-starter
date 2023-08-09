@@ -1,8 +1,14 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AUTH_HANDLERS_KEY, AuthHandler } from './auth.decorator';
 import { User } from '@octoco/models';
-import { createAbilityForUser } from './roles';
+import { AUTH_HANDLERS_KEY, AuthHandler } from './auth.decorator.js';
+import { PolicyProvider } from './policy.service.js';
+import { createAbilityForUser } from './types.js';
 
 /**
  * An implementation of a CASL-based authorisation guard. The idea is that we
@@ -11,15 +17,18 @@ import { createAbilityForUser } from './roles';
  * route.
  *
  * Users can be configured with a set of _roles_, each of which is granted
- * certain CASL abilities - see './roles.ts'. If the user has a role with the
+ * certain abilities - see './roles.ts'. If the user has a role with the
  * correct abilities for a given route, they are granted access (return true).
- * Otherwise we deny them access by throwing an unauthorised exception.
+ * Otherwise we deny them access (return false).
  *
  * See: https://docs.nestjs.com/guards
  */
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private refl: Reflector) {}
+  constructor(
+    private refl: Reflector,
+    private policyProvider: PolicyProvider,
+  ) {}
 
   canActivate(ctx: ExecutionContext) {
     const handlers: AuthHandler[] = this.refl.getAllAndMerge(
@@ -32,10 +41,14 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    // Otherwise the user needs to have an appropriate role to access them:
-    // TODO: inject user in auth middleware
-    const { user } = ctx.switchToHttp().getRequest<{ user: User }>();
-    const ability = createAbilityForUser(user);
+    // If there's no user to authenticate we fail with a 401:
+    const { user }: { user: User } = ctx.switchToHttp().getRequest();
+    if (user == null) {
+      throw new UnauthorizedException();
+    }
+
+    // The user must have an appropriate role for this route:
+    const ability = createAbilityForUser(this.policyProvider.policyMap, user);
     for (const handler of handlers) {
       if (!handler(ability)) return false;
     }

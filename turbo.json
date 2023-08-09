@@ -1,0 +1,42 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "dist/**/*.js",
+        "dist/**/*.js,map",
+        "dist/**/*.d.ts"
+      ]
+    },
+    "build:prod": {
+      "dependsOn": ["build"],
+      "outputs": ["dist/bundle.js"]
+    },
+    "build:docker": {
+      "dependsOn": ["build:prod"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "inputs": [
+        "src/**/*.ts"
+      ]
+    },
+    "serve": {
+      "dependsOn": ["build"],
+      "persistent": true,
+      "cache": false
+    },
+    "serve:docker": {
+      "dependsOn": ["build:docker"],
+      "persistent": true,
+      "cache": false
+    },
+    "deploy:docker": {
+      "dependsOn": ["build:docker"],
+      "cache": false
+    },
+    "format": {},
+    "lint": {}
+  }
+}

@@ -9,7 +9,6 @@ import { selectTheme } from './store/theme/themeSlice';
 import { themeNames } from './store/theme/themeSlice.contracts';
 
 function App() {
-  const content = useRoutes(router);
   const theme = useAppSelector(selectTheme);
 
   return (
@@ -19,7 +18,7 @@ function App() {
         hideProgressBar={true}
         theme={theme === themeNames.dark ? 'dark' : 'light'}
       />
-      {content}
+      {useRoutes(router)}
     </ThemeProvider>
   );
 }

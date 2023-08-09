@@ -1,17 +1,30 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import { NotFoundError } from '@mikro-orm/core'; // bad guy, catch in svc
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
+import {
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 import { CreateUserDto, User, UserService } from '@octoco/models';
 
-@Controller('<=h.changeCase.paramCase(name)')
+@Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @ApiOkResponse({
+  @ApiCreatedResponse({
     description: 'The newly created user record.',
     type: User,
   })
-  create(@Body() data: CreateUserDto) {
+  async create(@Body() data: CreateUserDto) {
     return this.userService.create(data);
   }
 
@@ -23,12 +36,24 @@ export class UserController {
   @ApiNotFoundResponse({
     description: 'No user was found with the given ID.',
   })
-  findById(@Param('id') id: string) {
-    return this.userService.findById(id);
+  async findById(@Param('id') id: string) {
+    const user = await this.userService.findById(id);
+    if (user === null) {
+      throw new NotFoundException();
+    }
+
+    return user;
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+  async remove(@Param('id') id: string) {
+    try {
+      await this.userService.remove(id);
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        throw new NotFoundException();
+      }
+      throw err;
+    }
   }
 }

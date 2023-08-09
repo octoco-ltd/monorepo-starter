@@ -1,13 +1,19 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
-import { FirebaseService } from './firebase.service';
-import { DecodedIdToken } from 'firebase-admin/auth';
 import { User, UserService } from '@octoco/models';
+import { NextFunction, Request, Response } from 'express';
+import { DecodedIdToken } from 'firebase-admin/auth';
+import { FirebaseService } from './firebase.service';
 
+// We need to patch the express typings to type custom properties, see:
+// https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/express-serve-static-core/index.d.ts#L19
 declare global {
+  // eslint-disable-next-line
   namespace Express {
     interface Request {
-      user?: User; // the logged-in user
+      /**
+       * The User record of the authenticated user.
+       */
+      user?: User;
     }
   }
 }
@@ -18,31 +24,30 @@ declare global {
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(
-    private firebase: FirebaseService,
-    private users: UserService,
+    private firebaseService: FirebaseService,
+    private userService: UserService,
   ) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
-    // No header, nothing to authenticate.
+    // Nothing to do unless we have a bearer token to authenticate:
     if (!req.headers.authorization) return next();
-
-    // Check for a bearer token:
     const parts = req.headers.authorization.split(' ');
     if (parts[0] !== 'Bearer') return next();
 
-    // Decode the bearer token:
     const token = parts[1];
     let decodedToken: DecodedIdToken;
     try {
-      decodedToken = await this.firebase.getAuth().verifyIdToken(token);
+      decodedToken = await this.firebaseService.verifyIdToken(token);
     } catch (err) {
-      throw new Error(`Failed to decode bearer token.`);
+      throw new Error(`Failed to decode bearer token: ${err}`);
     }
 
-    // Finally inject the corresponding user into the request:
-    // TODO: use firebase user ID here or find by email?
-    const user = await this.users.findById(decodedToken.uid);
+    // Injects user into request for RBAC guards:
+    const user = await this.userService.findById(decodedToken.uid);
     if (!user) {
+      // TODO: this is a case where the user exists on firebase but we don't
+      // have a database entry for them. Probably the right thing to do here
+      // is redirect them to a registration page.
       throw new Error('No user corresponding to the given bearer token found.');
     } else {
       req.user = user;

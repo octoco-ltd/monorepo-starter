@@ -1,8 +1,8 @@
+import { EntityManager, MikroORM, UseRequestContext } from '@mikro-orm/core';
+import { EntityRepository } from '@mikro-orm/mongodb';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './user.dto';
 import { User } from './user.entity';
-import { EntityManager, EntityRepository } from '@mikro-orm/mongodb';
-import { MikroORM, UseRequestContext } from '@mikro-orm/core';
 
 @Injectable()
 export class UserService {

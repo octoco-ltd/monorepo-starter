@@ -3,19 +3,19 @@ import { HomeWrapper } from './Home.styles';
 import { Helmet } from 'react-helmet-async';
 import { Button, Container } from '@mui/material';
 import WelcomeComponent from './components/WelcomeComponent';
-import { GridOperator } from '@octoco/models';
-import {
-  selectGridOperators,
-  addGridOperators,
-} from 'src/store/grid-operator/gridOperatorSlice';
 import { DataGrid } from '@mui/x-data-grid';
 import { useAppDispatch, useAppSelector } from 'src/hooks/hooks';
+import {
+  addTradeGroups,
+  selectTradeGroups,
+} from 'src/store/trade-groups/tradeGroupsSlice';
+import { TradeGroup } from '@octoco/models';
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
 
-  const gridOperators: GridOperator[] = useAppSelector(selectGridOperators);
-  const rows = gridOperators.map((go) => {
+  const tradeGroups: TradeGroup[] = useAppSelector(selectTradeGroups);
+  const rows = tradeGroups.map((go) => {
     return { id: go.id, col1: go.id, col2: go.name };
   });
   const columns = [
@@ -36,7 +36,7 @@ const HomePage = () => {
           onClick={async () => {
             try {
               // Create a grid operator:
-              await fetch('http://localhost:8080/api/grid-operator', {
+              await fetch('http://localhost:8080/api/trade-group', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -47,12 +47,10 @@ const HomePage = () => {
               });
 
               // Fetch the list of them:
-              const res = await fetch(
-                'http://localhost:8080/api/grid-operator'
-              );
+              const res = await fetch('http://localhost:8080/api/trade-group');
               dispatch(
-                addGridOperators({
-                  gridOperators: await res.json(),
+                addTradeGroups({
+                  tradeGroups: await res.json(),
                 })
               );
             } catch (err) {
