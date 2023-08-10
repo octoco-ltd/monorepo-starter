@@ -3,8 +3,7 @@
   "private": true,
   "packageManager": "yarn@3.6.1",
   "workspaces": [
-    "packages/@octoco/*",
-    "packages/devops"
+    "packages/@octoco/*"
   ],
   "devDependencies": {
     "@nestjs/config": "^3.0.0",
