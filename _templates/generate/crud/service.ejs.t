@@ -1,5 +1,5 @@
 ---
-to: packages/@octoco/models/src/<%=h.changeCase.paramCase(name)%>s/<%=h.changeCase.paramCase(name)%>.service.ts
+to: packages/@octoco/shared/src/<%=h.changeCase.paramCase(name)%>s/<%=h.changeCase.paramCase(name)%>.service.ts
 ---
 import { Injectable } from '@nestjs/common';
 import { Create<%=h.changeCase.pascalCase(name)%>Dto, Update<%=h.changeCase.pascalCase(name)%>Dto } from './<%=h.changeCase.paramCase(name)%>.dto';

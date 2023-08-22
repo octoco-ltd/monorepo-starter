@@ -1,5 +1,5 @@
 ---
-to: packages/@octoco/models/src/<%=h.changeCase.paramCase(name)%>s/<%=h.changeCase.paramCase(name)%>.entity.ts
+to: packages/@octoco/shared/src/<%=h.changeCase.paramCase(name)%>s/<%=h.changeCase.paramCase(name)%>.entity.ts
 ---
 import {
   Entity,

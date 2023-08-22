@@ -1,5 +1,5 @@
 ---
-to: packages/@octoco/models/src/index.ts
+to: packages/@octoco/shared/src/index.ts
 inject: true
 after: db.module.js
 eof_last: false

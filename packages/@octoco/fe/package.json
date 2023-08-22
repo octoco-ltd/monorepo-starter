@@ -20,7 +20,7 @@
     "@mui/material": "^5.10.9",
     "@mui/styles": "^5.10.9",
     "@mui/x-data-grid": "^6.10.2",
-    "@octoco/models": "workspace:^",
+    "@octoco/shared": "workspace:^",
     "@reduxjs/toolkit": "^1.8.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

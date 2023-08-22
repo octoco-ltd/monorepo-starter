@@ -9,7 +9,7 @@ import {
   addTradeGroups,
   selectTradeGroups,
 } from 'src/store/trade-groups/tradeGroupsSlice';
-import { TradeGroup } from '@octoco/models';
+import { TradeGroup } from '@octoco/shared';
 
 const HomePage = () => {
   const dispatch = useAppDispatch();

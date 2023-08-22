@@ -4,7 +4,7 @@ to: packages/@octoco/rest/src/crud/<%=h.changeCase.paramCase(name)%>/<%=h.change
 import request from 'supertest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { <%=h.changeCase.pascalCase(name)%>Controller } from './<%=h.changeCase.paramCase(name)%>.controller';
-import { DBModule, <%=h.changeCase.pascalCase(name)%>Service } from '@octoco/models';
+import { DBModule, <%=h.changeCase.pascalCase(name)%>Service } from '@octoco/shared';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 
 describe('<%=h.changeCase.pascalCase(name)%>Controller', () => {

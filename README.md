@@ -16,7 +16,7 @@ You should see something like this:
 
 ```
 ➤ YN0000: .
-➤ YN0000: packages/@octoco/models
+➤ YN0000: packages/@octoco/shared
 ➤ YN0000: packages/@octoco/rest
 ➤ YN0000: Done in 0s 1ms
 ```
@@ -33,7 +33,7 @@ You can run scripts in a particular workspace's `package.json` with `yarn worksp
 yarn workspace @octoco/rest build
 ```
 
-This will automatically build the `@octoco/models` workspace first, as it's a dependency of `@octoco/rest` (see [managing dependencies](#markdown-header-managing-dependencies)). If you want to run a script across every workspace, you can do it as follows:
+This will automatically build the `@octoco/shared` workspace first, as it's a dependency of `@octoco/rest` (see [managing dependencies](#markdown-header-managing-dependencies)). If you want to run a script across every workspace, you can do it as follows:
 
 ```
 yarn workspaces foreach run <script_name>
@@ -66,10 +66,10 @@ yarn workspace @octoco/rest add @nestjs/common
 If you want to have a workspace depend on another workspace (for instance, the REST API depends on the shared models library), you can do exactly the same thing:
 
 ```
-yarn workspace @octoco/rest add @octoco/models
+yarn workspace @octoco/rest add @octoco/shared
 ```
 
-There is one catch though - `tsc` isn't aware of yarn workspaces by default, so you would have to make sure to build the `@octoco/models` workspace before you build the `@octoco/rest` workspace. To solve this problem, you can add a typescript [project reference](https://www.typescriptlang.org/docs/handbook/project-references.html) to the workspace to tell `tsc` that there is a build dependency between them. This is configured in the workspace's `tsconfig.json`:
+There is one catch though - `tsc` isn't aware of yarn workspaces by default, so you would have to make sure to build the `@octoco/shared` workspace before you build the `@octoco/rest` workspace. To solve this problem, you can add a typescript [project reference](https://www.typescriptlang.org/docs/handbook/project-references.html) to the workspace to tell `tsc` that there is a build dependency between them. This is configured in the workspace's `tsconfig.json`:
 
 ```js
 {
@@ -91,6 +91,6 @@ The `_templates` directory contains a [`hygen`](https://github.com/jondot/hygen)
 yarn hygen generate crud Municipality
 ```
 
-This will write an entity class and a database service for it to the shared `@octoco/models` workspace, and a REST controller for basic CRUD to the `@octoco/rest` workspace. It also generates tests for both, so you can verify that it worked by running `yarn workspaces foreach run test`. Currently this boilerplate is pretty minimal, but it does give you a model that's fully wired up.
+This will write an entity class and a database service for it to the shared `@octoco/shared` workspace, and a REST controller for basic CRUD to the `@octoco/rest` workspace. It also generates tests for both, so you can verify that it worked by running `yarn workspaces foreach run test`. Currently this boilerplate is pretty minimal, but it does give you a model that's fully wired up.
 
 If you want to edit the template, the [`hygen`](https://github.com/jondot/hygen) github page has great documentation.

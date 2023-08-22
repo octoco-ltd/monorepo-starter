@@ -1,5 +1,5 @@
 ---
-to: packages/@octoco/models/src/<%=h.changeCase.paramCase(name)%>s/<%=h.changeCase.paramCase(name)%>.dto.ts
+to: packages/@octoco/shared/src/<%=h.changeCase.paramCase(name)%>s/<%=h.changeCase.paramCase(name)%>.dto.ts
 ---
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';

@@ -24,7 +24,7 @@ import {
   <%=h.changeCase.pascalCase(name)%>,
   <%=h.changeCase.pascalCase(name)%>Service,
   Update<%=h.changeCase.pascalCase(name)%>Dto,
-} from '@octoco/models';
+} from '@octoco/shared';
 import { Auth } from '../../auth/auth.decorator';
 
 // Rest endpoints are defined and handled by the controller. Decorators do all

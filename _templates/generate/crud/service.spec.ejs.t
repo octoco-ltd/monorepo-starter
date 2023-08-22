@@ -1,5 +1,5 @@
 ---
-to: packages/@octoco/models/src/<%=h.changeCase.paramCase(name)%>s/<%=h.changeCase.paramCase(name)%>.service.spec.ts
+to: packages/@octoco/shared/src/<%=h.changeCase.paramCase(name)%>s/<%=h.changeCase.paramCase(name)%>.service.spec.ts
 ---
 import { Test, TestingModule } from '@nestjs/testing';
 import { <%=h.changeCase.pascalCase(name)%>Service } from './<%=h.changeCase.paramCase(name)%>.service';

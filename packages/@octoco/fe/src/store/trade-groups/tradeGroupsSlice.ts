@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TradeGroup } from '@octoco/models';
+import { TradeGroup } from '@octoco/shared';
 import { RootState } from '../store';
 import { ITradeGroupsSlice } from './tradeGroupsSlice.contracts';
 

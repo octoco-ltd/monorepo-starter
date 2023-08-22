@@ -3,7 +3,7 @@ to: packages/@octoco/rest/src/crud/<%=h.changeCase.paramCase(name)%>/<%=h.change
 ---
 import { Module } from '@nestjs/common';
 import { <%=h.changeCase.pascalCase(name)%>Controller } from './<%=h.changeCase.paramCase(name)%>.controller.js';
-import { <%=h.changeCase.pascalCase(name)%>Service } from '@octoco/models';
+import { <%=h.changeCase.pascalCase(name)%>Service } from '@octoco/shared';
 
 @Module({
   controllers: [<%=h.changeCase.pascalCase(name)%>Controller],
